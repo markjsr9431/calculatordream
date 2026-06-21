@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronos · Calculadora de ciclos de sueño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+
+<div class="bg-field" aria-hidden="true">
+  <div class="orbit-decor"></div>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Cronos</span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+    <svg id="iconMoon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg id="iconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+  </button>
+</header>
+
+<main class="stage">
+
+  <section class="intro">
+    <p class="eyebrow">Cálculo basado en ciclos de 90 minutos</p>
+    <h1>Encuentra tu hora exacta para despertar con energía</h1>
+  </section>
+
+  <section class="mode-switch" role="tablist" aria-label="Modo de cálculo">
+    <button class="mode-btn active" data-mode="bedtime" role="tab" aria-selected="true">Me acuesto ahora</button>
+    <button class="mode-btn" data-mode="wake" role="tab" aria-selected="false">Necesito despertar a...</button>
+  </section>
+
+  <section class="panel">
+
+    <div class="time-input-row">
+      <label for="timeInput" class="time-label" id="timeInputLabel">Hora en que te acuestas</label>
+      <div class="time-input-wrap">
+        <input type="time" id="timeInput" class="time-input" />
+        <button class="now-btn" id="nowBtn">Ahora</button>
+      </div>
+    </div>
+
+    <div class="fall-asleep-row">
+      <label for="fallAsleep" class="sub-label">Tiempo promedio para conciliar el sueño</label>
+      <div class="slider-row">
+        <input type="range" id="fallAsleep" min="0" max="30" step="5" value="15">
+        <span class="slider-value" id="fallAsleepValue">15 min</span>
+      </div>
+    </div>
+
+    <button class="calc-btn" id="calcBtn">
+      <span>Calcular ciclos</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+
+  </section>
+
+  <section class="results" id="resultsSection" hidden>
+
+    <div class="orbit-display" id="orbitDisplay">
+      <svg id="orbitSvg" viewBox="0 0 480 480" aria-hidden="true"></svg>
+      <div class="orbit-center">
+        <span class="orbit-center-label" id="orbitCenterLabel">Acuéstate</span>
+        <span class="orbit-center-time" id="orbitCenterTime">--:--</span>
+      </div>
+    </div>
+
+    <div class="results-list" id="resultsList"></div>
+
+    <div class="actions-row">
+      <button class="export-btn" id="exportImgBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+        Exportar imagen
+      </button>
+      <button class="export-btn" id="exportPdfBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        Exportar PDF
+      </button>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>Cada ciclo dura 90 minutos · Despertar entre ciclos reduce la inercia del sueño</p>
+</footer>
+
+<div class="export-canvas" id="exportCanvas">
+  <div class="export-header">
+    <span class="export-brand">Cronos</span>
+    <span class="export-tag">Plan de sueño</span>
+  </div>
+  <div class="export-main-time">
+    <span class="export-main-label" id="exportMainLabel">Acuéstate a las</span>
+    <span class="export-main-value" id="exportMainValue">--:--</span>
+  </div>
+  <div class="export-options" id="exportOptions"></div>
+  <div class="export-footer">Calculado con ciclos de sueño de 90 minutos</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
